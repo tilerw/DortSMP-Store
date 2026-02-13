@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DortSMP Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #01afce;
+            --secondary: #57F287;
+            --dark: #0a0a0a;
+            --light: #FFFFFF;
+            --gray: #B9BBBE;
+            --card-bg: #1a1a1a;
+            --border: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--light);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 0 80px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 6rem;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--primary);
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 100px 0;
+            min-height: 100vh;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            color: var(--gray);
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.3);
+        }
+
+        .product-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(88, 101, 242, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .product-name {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        .product-description {
+            color: var(--gray);
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .product-features li {
+            padding: 12px 0 12px 30px;
+            color: var(--gray);
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            font-weight: 300;
+        }
+
+        .product-features li:last-child {
+            border-bottom: none;
+        }
+
+        .product-features li::before {
+            content: '▶';
+            position: absolute;
+            right: 0;
+            color: var(--primary);
+            font-size: 0.7rem;
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: rgba(88, 101, 242, 0.1);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .currency {
+            font-size: 1.1rem;
+            color: var(--gray);
+            font-weight: 300;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 50px;
+            max-width: 550px;
+            width: 90%;
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-size: 2.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: var(--light);
+        }
+
+        .modal h2 {
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 20px;
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            background: rgba(87, 242, 135, 0.1);
+            border-radius: 8px;
+            border: 2px solid var(--secondary);
+            margin-top: 25px;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                padding: 30px;
+                gap: 20px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">الرئيسية</a></li>
+                <li><a href="#keys">المفاتيح</a></li>
+                <li><a href="#ranks">الرتب</a></li>
+                <li><a href="#contact">التواصل</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>DORTSMP SHOP</h1>
+                <p>للشراء يجـب فتح تيكت بسيرفر الديسكورد</p>
+                <a href="#keys" class="hero-cta">تصفح المنتجات</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="keys">
+        <div class="container">
+            <div class="section-header">
+                <h2>المفاتيح</h2>
+                <p>احصل على مفاتيح دخول للأقسام الخاصة والحصرية</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <span class="product-badge">أساسي</span>
+                    <h3 class="product-name">Common Key</h3>
+                    <p class="product-description">مفتاح أساسي للدخول إلى المناطق الخاصة في السيرفر</p>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">5</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('Common Key', 5, 'COMMON_KEY')">اشتري الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">ذهبي</span>
+                    <h3 class="product-name">Gold Key</h3>
+                    <p class="product-description">مفتاح ذهبي مع صلاحيات ومميزات أفضل</p>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">15</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('Gold Key', 15, 'GOLD_KEY')">اشتري الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">الماس</span>
+                    <h3 class="product-name">Amethyst</h3>
+                    <p class="product-description">مفتاح Amethyst الحصري مع مميزات متقدمة</p>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">20</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('Amethyst', 20, 'AMETHYST_KEY')">اشتري الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">قرمزي</span>
+                    <h3 class="product-name">Crimson</h3>
+                    <p class="product-description">مفتاح Crimson الفاخر بصلاحيات استثنائية</p>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">35</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('Crimson', 35, 'CRIMSON_KEY')">اشتري الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">الأفضل</span>
+                    <h3 class="product-name">Prime Key</h3>
+                    <p class="product-description">المفتاح الأعلى مع كل المميزات والصلاحيات</p>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">50</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('Prime Key', 50, 'PRIME_KEY')">اشتري الآن</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ranks">
+        <div class="container">
+            <div class="section-header">
+                <h2>الرتب</h2>
+                <p>اختر الرتبة المناسبة لك واحصل على مميزات حصرية</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <span class="product-badge">حصري</span>
+                    <h3 class="product-name">+DortSMP</h3>
+                    <ul class="product-features">
+                        <li>تحصل على 10M في اللعبة</li>
+                        <li>يمكنك إخفاء اسمك</li>
+                        <li>إشارة مميزة بجانب الاسم</li>
+                    </ul>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">30</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('DortSMP', 30, 'DORTSMP_RANK')">اشتري الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">VIP</span>
+                    <h3 class="product-name">VIP</h3>
+                    <ul class="product-features">
+                        <li>لون مميز في السيرفر</li>
+                        <li>رومات خاصة بالـ VIP</li>
+                        <li>دعم فني خاص</li>
+                        <li>صلاحيات خاصة قريباً</li>
+                        <li>5M في اللعبة</li>
+                    </ul>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">25</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('VIP', 25, 'VIP_RANK')">اشتري الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">الأفضل</span>
+                    <h3 class="product-name">Best</h3>
+                    <ul class="product-features">
+                        <li>دعم فني خاص بكامل واجهة</li>
+                        <li>رومات جديدة</li>
+                        <li>اقتراح الآراء بشكل أفضل</li>
+                        <li>CPVP Kit خاص</li>
+                    </ul>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">40</span>
+                            <span class="currency">جنيه</span>
+                        </div>
+                    </div>
+                    <button class="buy-button" onclick="openModal('Best', 40, 'BEST_RANK')">اشتري الآن</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>التواصل</h2>
+                <p>تواصل معنا للاستفسارات أو الدعم الفني</p>
+            </div>
+            <div style="text-align: center; color: var(--gray); font-size: 1.2rem; line-height: 2;">
+                <p>Discord: <strong style="color: var(--primary);">https://discord.gg/36VKKt9rMU</strong></p> #DortSMP ON TOP
+            </div>
+        </div>
+    </section>
+
+
+    #DortSMP ON TOP
+    <footer>
+        <p>&copy; 2026 DortSMP Shop. All Rights Reserved.</p>
+        <p>Powered by Discord Integration</p>
+    </footer>
+
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <h2>إتمام عملية الشراء</h2>
+            <div id="purchaseInfo"></div>
+            <form id="purchaseForm" onsubmit="handlePurchase(event)">
+                <div class="form-group">
+                    <label>Discord Username</label>
+                    <input type="text" id="discordUsername" placeholder="Example: User#1234" required>
+                </div>
+                <div class="form-group">
+                    <label>Discord User ID</label>
+                    <input type="text" id="discordUserId" placeholder="Example: 123456789012345678" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="email@example.com" required>
+                </div>
+                <button type="submit" class="submit-button">تأكيد الشراء</button>
+            </form>
+            <div class="success-message" id="successMessage">
+                تم إرسال طلبك بنجاح! سيتم إضافة الرتبة أو المفتاح خلال دقائق
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProduct = {};
+
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.getElementById('navLinks').classList.remove('active');
+                    document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                if (pageYOffset >= (section.offsetTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        function openModal(productName, price, productType) {
+            currentProduct = { name: productName, price: price, type: productType };
+            document.getElementById('purchaseInfo').innerHTML = `
+                <div style="padding: 25px; background: rgba(88, 101, 242, 0.1); border-radius: 8px; margin-bottom: 25px; border: 1px solid var(--border);">
+                    <p style="color: var(--gray); margin-bottom: 15px;">المنتج: <strong style="color: var(--light);">${productName}</strong></p>
+                    <p style="color: var(--gray);">السعر: <strong style="color: var(--primary); font-size: 1.8rem; font-family: 'Bebas Neue', sans-serif;">${price} جنيه</strong></p>
+                </div>
+            `;
+            document.getElementById('purchaseModal').classList.add('active');
+            document.getElementById('successMessage').classList.remove('active');
+        }
+
+        function closeModal() {
+            document.getElementById('purchaseModal').classList.remove('active');
+            document.getElementById('purchaseForm').reset();
+            document.getElementById('successMessage').classList.remove('active');
+        }
+
+        async function handlePurchase(event) {
+            event.preventDefault();
+            const username = document.getElementById('discordUsername').value;
+            const userId = document.getElementById('discordUserId').value;
+            const email = document.getElementById('email').value;
+
+            try {
+                const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: '🛒 New Purchase Order',
+                            color: 5814522,
+                            fields: [
+                                { name: '📦 Product', value: currentProduct.name, inline: true },
+                                { name: '💰 Price', value: `${currentProduct.price} جنيه`, inline: true },
+                                { name: '👤 Discord Username', value: username, inline: false },
+                                { name: '🆔 User ID', value: userId, inline: false },
+                                { name: '📧 Email', value: email, inline: false },
+                                { name: '🔖 Product Type', value: currentProduct.type, inline: false }
+                            ],
+                            timestamp: new Date().toISOString(),
+                            footer: { text: 'DortSMP Shop' }
+                        }]
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('purchaseForm').style.display = 'none';
+                    document.getElementById('successMessage').classList.add('active');
+                    setTimeout(() => {
+                        closeModal();
+                        document.getElementById('purchaseForm').style.display = 'block';
+                    }, 3000);
+                } else {
+                    alert('حدث خطأ في إرسال الطلب. حاول مرة أخرى.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('حدث خطأ في الاتصال. تأكد من إعداد Webhook بشكل صحيح.');
+            }
+        }
+
+        document.getElementById('purchaseModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
+</body>
+</html>
